@@ -12,29 +12,32 @@
  */
 
 //Nosso jogo:
+/*
 
-
- const boasVindas=console.log("Boas vindas ao jogo de Blackjack!")
+const boasVindas = console.log("Boas vindas ao jogo de Blackjack!")
 
 
 let desejaContinuar = confirm("Deseja iniciar o jogo? ")
-if (desejaContinuar== false) {console.log ("O jogo acabou!!")}
-while(desejaContinuar===true){
-if (desejaContinuar == true) {
-   let cartaUsuario = { c1: comprarCarta(), c2: comprarCarta() }
-let cartaComputador = { c1: comprarCarta(), c2: comprarCarta() }
-let somaUsuario = cartaUsuario.c1.valor + cartaUsuario.c2.valor
-let somaComputador = cartaComputador.c1.valor + cartaComputador.c2.valor
-   console.log("usuario: ", cartaUsuario.c1.texto, cartaUsuario.c2.texto, "Pontuação = ", somaUsuario)
-   console.log("computador: ", cartaComputador.c1.texto, cartaComputador.c2.texto, " Pontuação = ", somaComputador)
-   if (somaUsuario > somaComputador) {
-      console.log("O usuário ganhou!!")
-   } else if (somaUsuario == somaComputador) {
-      console.log("Empate!")
-   } else { console.log("O computador ganhou!") 
-} 
-desejaContinuar=confirm("Deseja jogar novamente? ")
-} if(desejaContinuar===false){console.log("O jogo acabou!")}
+if (desejaContinuar == false) { console.log("O jogo acabou!!") }
+while (desejaContinuar === true) {
+   if (desejaContinuar == true) {
+      let cartaUsuario = { c1: comprarCarta(), c2: comprarCarta() }
+      let cartaComputador = { c1: comprarCarta(), c2: comprarCarta() }
+      let somaUsuario = cartaUsuario.c1.valor + cartaUsuario.c2.valor
+      let somaComputador = cartaComputador.c1.valor + cartaComputador.c2.valor
+      console.log("Usuário - cartas: ", cartaUsuario.c1.texto,",", cartaUsuario.c2.texto, "Pontuação = ", somaUsuario)
+      console.log("Computador - cartas: ", cartaComputador.c1.texto,",", cartaComputador.c2.texto, " Pontuação = ", somaComputador)
+      
+      if (somaUsuario > somaComputador) {
+         console.log("O usuário ganhou!!")
+      } else if (somaUsuario == somaComputador) {
+         console.log("Empate!")
+      } else {
+         console.log("O computador ganhou!")
+      }
+      console.log("")
+      desejaContinuar = confirm("Deseja jogar novamente? ")
+   } if (desejaContinuar === false) { console.log("O jogo acabou!") }
 }
-
-
+  
+*/
