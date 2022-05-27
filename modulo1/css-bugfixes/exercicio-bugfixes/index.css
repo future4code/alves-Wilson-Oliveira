@@ -141,9 +141,15 @@ td button:active{
 .container-do-search {
     margin-top: 20px;
     height: 100px;
+    
 }
 
-
+.container-do-search div input{
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+    border-bottom-width: 4px;
+}
 
 
 #back-button {
