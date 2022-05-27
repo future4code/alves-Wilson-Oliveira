@@ -22,7 +22,7 @@ input {
 }
 
 button:focus {
-    color: white;
+    color:white;
 }
 
 img {
@@ -61,7 +61,12 @@ div img {
 }
 
 .icone {
-    height: 15px;
+    max-width: 30px;
+    max-height: 30px;
+    width: auto;
+    height: auto;
+    position: relative;
+    top: 10px;
 }
 
 
@@ -126,19 +131,19 @@ td button {
     border-radius: 5px;
     color: black;
 }
+td button:hover{
+    background-color: #c8b14e;   
+}
+td button:active{
+    color: white;
+}
 
 .container-do-search {
     margin-top: 20px;
     height: 100px;
 }
-#img-lupa{
-    max-width: 30px;
-    max-height: 30px;
-    width: auto;
-    height: auto;
-    position: relative;
-    top: 10px;
-}
+
+
 
 
 #back-button {
