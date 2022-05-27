@@ -26,7 +26,11 @@ button:focus {
 }
 
 img {
-    width: 100px;
+    max-width: 50px;
+    max-height: 50px;
+    width: auto;
+    height: auto;
+
 }
 
 div>p:first-child {
@@ -112,6 +116,7 @@ div:last-child {
 
 table {
     width: 60%;
+    text-align: center;
 }
 
 td button {
@@ -125,6 +130,14 @@ td button {
 .container-do-search {
     margin-top: 20px;
     height: 100px;
+}
+#img-lupa{
+    max-width: 30px;
+    max-height: 30px;
+    width: auto;
+    height: auto;
+    position: relative;
+    top: 10px;
 }
 
 
