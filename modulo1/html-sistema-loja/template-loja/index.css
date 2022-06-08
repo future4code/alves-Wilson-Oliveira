@@ -1,0 +1,6 @@
+body{background-color: gray;background-image:url(imagens/fundo\ site.jpg) ;background-size: 41cm;}
+td {background-color: black;color: white;}
+table{background-color:darkslateblue;color: whitesmoke;}
+#bemvindo{color:darkblue; background-color:slategrey ;font-size:500%;text-align: center;}
+#aquisemprevence{color: black;font-size: 300%;background-color: darkgrey;display: inline;margin-left: 14cm;}
+#hiperlink{background-color: black;font-size: 100%;}
