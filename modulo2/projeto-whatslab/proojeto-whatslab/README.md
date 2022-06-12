@@ -6,7 +6,7 @@ O que funciona:
 enviar mensagem escritas em inputs e mostra na tela.
 
 O que não funciona:
-não deleta msg.
+não deleta mensagens.
 
 Link Surge
 shrill-play.surge.sh
