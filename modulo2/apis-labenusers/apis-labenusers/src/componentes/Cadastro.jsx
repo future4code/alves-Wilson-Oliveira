@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import "./style.css"
 
-export class CriarUsuario extends React.Component {
+export class Cadastro extends React.Component {
   state = {
     nomeUsuario: "",
     emailUsuario: "",
@@ -47,7 +47,7 @@ export class CriarUsuario extends React.Component {
 
     return (
       <main>
-        <button onClick={this.props.mudarTela}>Trocar de Sala</button>
+        <button onClick={()=>this.props.mudarTela("usuarios")}>Avaçar</button>
         <h2>Crie seu usuario:</h2>
         <div >
           <h3>nome do usuario:</h3>

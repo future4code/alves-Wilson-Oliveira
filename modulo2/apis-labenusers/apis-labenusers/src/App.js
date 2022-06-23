@@ -1,15 +1,33 @@
 import React from "react";
-import {CriarUsuario} from "./componentes/Criarusuario"
-import {Editarusuario} from "./componentes/Editarusuario"
+import {Cadastro} from "./componentes/Cadastro"
+import {Usuarios} from "./componentes/Usuarios"
+import { Detalhes } from "./componentes/Detalhes";
 import Labenu from "./componentes/Labenu.jpg"
 
 export class App extends React.Component {
   state={
-  tela:true
+  tela:"cadastro"
 
   }
-  mudarTela=()=>{
-    this.setState({tela:!this.state.tela})
+
+escolheTela=()=>{
+switch(this.state.tela){
+  case "cadastro":
+    return<Cadastro mudarTela={this.mudarTela}/>
+    case "usuarios":
+      return <Usuarios mudarTela={this.mudarTela}/>
+        default:
+          return<Cadastro mudarTela={this.mudarTela}/>
+          
+}
+
+
+
+}
+
+
+  mudarTela=(nomedatela)=>{
+    this.setState({tela:nomedatela})
   }
   
   
@@ -20,7 +38,7 @@ export class App extends React.Component {
 
     <div className="App">
       <h1 className="headerMain">Bem vindo a Labenuser</h1>
-     {this.state.tela ? (<CriarUsuario mudarTela={this.mudarTela}></CriarUsuario>):(<Editarusuario mudarTela={this.mudarTela}></Editarusuario>)}
+     {this.escolheTela()}
      <div className="divisoria"> <img className="back" src={Labenu}/></div>
     </div>
   );
