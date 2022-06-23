@@ -21,6 +21,7 @@ export class CriarUsuario extends React.Component {
       })
       .then((resposta) => {
         resposta.status === 201 && alert("Seu usuario foi criado com sucesso");
+        this.setState({nomeUsuario:"",emailUsuario:""})
       })
       .catch((erro) => {
         alert(erro.response.data.message)
@@ -47,13 +48,15 @@ export class CriarUsuario extends React.Component {
     return (
       <main>
         <button onClick={this.props.mudarTela}>Trocar de Sala</button>
+        <h2>Crie seu usuario:</h2>
         <div >
           <h3>nome do usuario:</h3>
           <input
-            onChange={this.Peganome} value={this.state.nomeUsuario} />
+            onChange={this.Peganome} value={this.state.nomeUsuario} placeholder="Usuario:"/>
           <h3>email do usuario:</h3>
           <input
-            onChange={this.Pegaemail} value={this.state.emailUsuario} />
+            onChange={this.Pegaemail} value={this.state.emailUsuario} placeholder="Email"/>
+            <p></p>
           <button onClick={this.EnviaUsuario} >enviar</button>
         </div>
       </main>)
