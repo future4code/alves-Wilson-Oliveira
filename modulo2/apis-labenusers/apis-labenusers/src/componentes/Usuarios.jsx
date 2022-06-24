@@ -114,7 +114,7 @@ mudaTela=()=>{
                     <input onChange={this.BuscaEmailValeu} value={this.state.email} placeholder="email"></input>
                     <button onClick={this.procurarUsuario}>enviar</button>
                     <p></p>
-                    <div className="traco"></div>
+                    <div className="traco"></   div>
                     <h2>Lista de usuarios</h2>
                     <div>{
                         this.state.usuario.map((item) => {
@@ -134,7 +134,8 @@ mudaTela=()=>{
         else{
                     {return(<div>
                     <button onClick={this.mudaTela}>Voltar</button>
-            <Detalhes id={this.state.id}  ></Detalhes>
+            <Detalhes id={this.state.id} ></Detalhes>
+            
                 </div>
                 )}
              }
