@@ -26,6 +26,7 @@ if (mudaTela==true){return setMudaBotao("perfis")}else{return setMudaBotao("matc
     <div >
       <Header atualizaTela={atualizaTela} mudaBotao={mudaBotao}/>
       {Pagina()}
+      
     </div>
   );
 }
