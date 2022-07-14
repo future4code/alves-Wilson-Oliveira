@@ -4,7 +4,7 @@ export function AdminHome() {
     const navigate = useNavigate
     return (
       <div >
-        
+        adminhome
       </div>
     );
   }

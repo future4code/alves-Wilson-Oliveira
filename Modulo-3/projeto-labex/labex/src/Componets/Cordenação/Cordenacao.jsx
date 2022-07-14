@@ -19,6 +19,9 @@ export const irParaCriarViagem =(navigate)=>{
 export const irParaAdminLogin =(navigate)=>{
     navigate("adminLogin")
 }
+export const irParaAdminHome =(navigate)=>{
+    navigate("adminHome")
+}
 export const irParaFormularioViagem =(navigate)=>{
     navigate("formularioViagem")
 }
