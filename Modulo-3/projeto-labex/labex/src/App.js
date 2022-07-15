@@ -16,9 +16,9 @@ function App() {
       <Route path = "adminLogin" element ={<AdminLogin/>}/>
       <Route path = "adminLogin/adminHome" element ={<AdminHome/>}/>
       <Route path = "listaViagens" element ={<ListaViagens/>}/>
-      <Route path = "formularioViagem" element ={<FormularioViagem/>}/>
-      <Route path = "criarViagem" element ={<CriarViagem/>}/>
-      <Route path = "detalhesViagem" element ={<DetalhesViagem/>}/>
+      <Route path = "listaViagens/formularioViagem" element ={<FormularioViagem/>}/>
+      <Route path = "adminLogin/adminHome/criarViagem" element ={<CriarViagem/>}/>
+      <Route path = "adminLogin/adminHome/detalheViagem" element ={<DetalhesViagem/>}/>
       </Routes>
     </BrowserRouter>
   );

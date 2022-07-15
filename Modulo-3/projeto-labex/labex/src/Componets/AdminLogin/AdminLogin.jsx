@@ -6,8 +6,8 @@ import { irParaAdminHome } from "../Cordenação/Cordenacao";
 
 export function AdminLogin() {
   const navigate = useNavigate()
-  const [usuario, setUsuario] = useState()
-  const [senha, setSenha] = useState()
+  const [usuario, setUsuario] = useState("will@hotmail.com")
+  const [senha, setSenha] = useState("123456")
   const [token, settoken] = useState()
 
   const pegaUsuario = (event) => {
@@ -26,7 +26,7 @@ export function AdminLogin() {
     axios.
     post("https://us-central1-labenu-apis.cloudfunctions.net/labeX/wilson-santos-alves/login",body)
     .then((resposta)=>{
-      // localStorage.setItem("token",resposta.data.token)
+      localStorage.setItem("token",resposta.data.token)
       irParaAdminHome(navigate)
     })
     .catch((error)=>{console.log(error)})
