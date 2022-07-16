@@ -1,8 +1,26 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+import { Fottercomp } from "../Home-Pagina/Fotter-comp";
+import { Headercomp } from "../Home-Pagina/Header-comp";
 
-export function FormularioViagem() {
+const Formulariostyle=styled.div`
+  display:flex;
+  flex-direction: column;
+    align-items: center;
+`
+const Appstyled=styled.div`
+ display: grid;
+ grid-template-rows: 1fr 1fr 1fr;
+ width: 100%;
+ min-height: 100vh;
+ height: 100%;
+ background-color: #a192927a;
+ `
+
+export function FormularioViagem(props) {
   const navigate = useNavigate
+  const pathParams=useParams()
 const candidatos=()=>{
   const body={
     name: "Astrodev",
@@ -12,22 +30,29 @@ const candidatos=()=>{
     country: "Brasil"
   }
   axios
-  .post("https://us-central1-labenu-apis.cloudfunctions.net/labeX/wilson-santos-alves/trips/XPl4md94ByEHVfVD64c1/apply",body)
+  .post(`https://us-central1-labenu-apis.cloudfunctions.net/labeX/wilson-santos-alves/trips/${pathParams}/apply`,body)
   .then((resposta)=>{console.log(resposta)})
   .catch((error)=>{console.log(error)})
 }
 
-    return (
-      <div >
-        
+    return (<Appstyled>
+      <Headercomp/>
+      <Formulariostyle >
+        nome:
         <input></input>
+        idade:
         <input></input>
+        profissão:
         <input></input>
+        pais:
         <input></input>
+        Mensagen:
         <input></input>
         <button onClick={candidatos}>enviar</button>
        
-      </div>
+      </Formulariostyle>
+      <Fottercomp/>
+      </Appstyled>
     );
   }
   

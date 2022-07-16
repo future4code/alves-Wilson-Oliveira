@@ -7,21 +7,21 @@ export const voltarPagina = (navigate) =>{
 }
 
 export const irParaListaViagens =(navigate)=>{
-    navigate("listaViagens")
+    navigate("/listaViagens")
 }
 
 export const irParaDetalhesViagem =(navigate)=>{
-    navigate("detalheViagem")
+    navigate("/detalheViagem")
 }
 export const irParaCriarViagem =(navigate)=>{
-    navigate("criarViagem")
+    navigate("/criarViagem")
 }
 export const irParaAdminLogin =(navigate)=>{
-    navigate("adminLogin")
+    navigate("/adminLogin")
 }
 export const irParaAdminHome =(navigate)=>{
-    navigate("adminHome")
+    navigate("/adminHome")
 }
-export const irParaFormularioViagem =(navigate)=>{
-    navigate("formularioViagem")
+export const irParaFormularioViagem =(navigate,id)=>{
+    navigate(`/formularioViagem/${id}`)
 }

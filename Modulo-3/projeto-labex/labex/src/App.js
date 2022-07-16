@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import styled from "styled-components";
 import { AdminHome } from "./Componets/AdminHome/AdminHome";
 import { AdminLogin } from "./Componets/AdminLogin/AdminLogin";
 import { CriarViagem } from "./Componets/Criar-viagem/Criar-viagem";
@@ -7,20 +8,25 @@ import { FormularioViagem } from "./Componets/Formularios-de-viagem/Formulario-d
 import { HomePagina } from "./Componets/Home-Pagina/Home-pagina";
 import { ListaViagens } from "./Componets/Lista-Viagens/Lista-viagens";
 
+const Appstyled=styled.div`
+margin: 0;
+`
+
 
 function App() {
-  return (
+  return (<Appstyled>
     <BrowserRouter>
     <Routes>
       <Route index element ={<HomePagina/>}/>
       <Route path = "adminLogin" element ={<AdminLogin/>}/>
-      <Route path = "adminLogin/adminHome" element ={<AdminHome/>}/>
+      <Route path = "adminHome" element ={<AdminHome/>}/>
       <Route path = "listaViagens" element ={<ListaViagens/>}/>
-      <Route path = "listaViagens/formularioViagem" element ={<FormularioViagem/>}/>
-      <Route path = "adminLogin/adminHome/criarViagem" element ={<CriarViagem/>}/>
-      <Route path = "adminLogin/adminHome/detalheViagem" element ={<DetalhesViagem/>}/>
+      <Route path = "formularioViagem/:id" element ={<FormularioViagem/>}/>
+      <Route path = "criarViagem" element ={<CriarViagem/>}/>
+      <Route path = "detalheViagem" element ={<DetalhesViagem/>}/>
       </Routes>
     </BrowserRouter>
+    </Appstyled>
   );
 }
 
