@@ -10,8 +10,8 @@ export const irParaListaViagens =(navigate)=>{
     navigate("/listaViagens")
 }
 
-export const irParaDetalhesViagem =(navigate)=>{
-    navigate("/detalheViagem")
+export const irParaDetalhesViagem =(navigate,id)=>{
+    navigate(`/detalheViagem/${id}`)
 }
 export const irParaCriarViagem =(navigate)=>{
     navigate("/criarViagem")

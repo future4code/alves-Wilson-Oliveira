@@ -23,7 +23,7 @@ function App() {
       <Route path = "listaViagens" element ={<ListaViagens/>}/>
       <Route path = "formularioViagem/:id" element ={<FormularioViagem/>}/>
       <Route path = "criarViagem" element ={<CriarViagem/>}/>
-      <Route path = "detalheViagem" element ={<DetalhesViagem/>}/>
+      <Route path = "detalheViagem/:id" element ={<DetalhesViagem/>}/>
       </Routes>
     </BrowserRouter>
     </Appstyled>

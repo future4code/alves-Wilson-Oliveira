@@ -1,14 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
-import { AdminHome } from "../AdminHome/AdminHome";
+import { useNavigate } from "react-router-dom";
+import { Appstyled, Loginstyled } from "../../Styled";
 import { irParaAdminHome } from "../Cordenação/Cordenacao";
+import { Fottercomp } from "../Home-Pagina/Fotter-comp";
+import { Headercomp } from "../Home-Pagina/Header-comp";
+
+
+
 
 export function AdminLogin() {
   const navigate = useNavigate()
-  const [usuario, setUsuario] = useState("will@hotmail.com")
-  const [senha, setSenha] = useState("123456")
-  const [token, settoken] = useState()
+  const [usuario, setUsuario] = useState("")
+  const [senha, setSenha] = useState("")
+  const[loading,setloading]=useState(false)
 
   const pegaUsuario = (event) => {
     setUsuario(event.target.value)
@@ -18,7 +23,9 @@ export function AdminLogin() {
     setSenha(event.target.value)
   }
 
-  const pegaToken =()=>{
+  const pegaToken =(event)=>{
+    event.preventDefault()
+    setloading(true)
     const body={
       email:usuario,
       password:senha
@@ -26,23 +33,47 @@ export function AdminLogin() {
     axios.
     post("https://us-central1-labenu-apis.cloudfunctions.net/labeX/wilson-santos-alves/login",body)
     .then((resposta)=>{
+      setloading(false)
       localStorage.setItem("token",resposta.data.token)
       irParaAdminHome(navigate)
     })
-    .catch((error)=>{console.log(error)})
+    .catch((error)=>{
+      setloading(false)
+      alert("Ocorreu um erro, verique seu email/senha e tente novamente")
+    })
       
     
   }
 
 
     return (
-      <div >
-        <form>
-        <input value={usuario} onChange={pegaUsuario} placeholder="usuario" />
-        <input  value={senha} onChange={pegaSenha} placeholder="senha" />
-        </form>
-        <button type={"submit"} onClick={pegaToken}>enviar</button>
-        </div>
+      <Appstyled >
+        <Headercomp/>
+        {loading?"...Loading":<Loginstyled onSubmit={pegaToken}>
+          <h3>Email:</h3>
+        <input
+        value={usuario} 
+        onChange={pegaUsuario} 
+        placeholder="usuario" 
+        type={"email"}
+        required 
+        title="Email invalido"
+        />
+        <h3>Senha:</h3>
+        <input  
+        required 
+        value={senha}
+        onChange={pegaSenha} 
+        placeholder="senha" 
+        type={"password"}
+        pattern={"^.{3,}"} 
+        title="A senha deve ter o minimo de 3 caracteres"
+        />
+        <p></p>
+        <button>enviar</button>
+        </Loginstyled>}
+        <Fottercomp/>
+        </Appstyled>
     );
   }
 
