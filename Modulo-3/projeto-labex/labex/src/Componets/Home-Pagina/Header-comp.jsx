@@ -14,7 +14,6 @@ export function Headercomp() {
           </ContainerLogo>
           <Buttonsdiv>
           <button onClick={()=>irParaAdminLogin(navigate)}>Login</button>
-          <button onClick={()=>irParaAdminHome(navigate)}>Área administrativa</button>
           </Buttonsdiv>
         </Headerstyle>
       );
