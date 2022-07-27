@@ -1,4 +1,4 @@
 
-const goToHome =(navigate)=>{
-    navigate("")
+export const goToHome =(navigate)=>{
+    navigate("./")
 }

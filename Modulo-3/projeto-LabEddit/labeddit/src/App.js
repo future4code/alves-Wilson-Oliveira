@@ -1,6 +1,8 @@
-import { BrowserRouter, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import { HeaderComp } from "./components/Header/Header";
+import { LoginPage } from "./components/Pages/LoginPage";
+
 
 const PaginaTotal=styled.div`
 min-width: 100vw;
@@ -10,15 +12,14 @@ min-height: 100vh;
 function App() {
   return (
     <PaginaTotal >
-    {/* <BrowserRouter>
+    <BrowserRouter>
     <Routes>
-      <Router path ={""} element={""}/>
-      <Router path ={""} element={""}/>
-      <Router path ={""} element={""}/>
-      <Router path ={""} element={""}/>
+      <Route index  element={<LoginPage/>}/>
+      {/* <Route path ={""} element={""}/>
+      <Route path ={""} element={""}/>
+      <Route path ={""} element={""}/> */}
     </Routes>
-    </BrowserRouter> */}
-    <HeaderComp/>
+    </BrowserRouter>
     </PaginaTotal>
   );
 }
