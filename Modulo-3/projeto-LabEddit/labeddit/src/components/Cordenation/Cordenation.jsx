@@ -1,6 +1,6 @@
 
 export const goToLogin =(navigate)=>{
-    navigate("./")
+    navigate("/")
 }
 
 export const goToCadastro = (navigate)=>{
