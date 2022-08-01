@@ -33,7 +33,6 @@ export const ButoesStyled = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
-margin-top: 10vh;
+margin-top: 3vh;
 gap:3vh;
-
 `

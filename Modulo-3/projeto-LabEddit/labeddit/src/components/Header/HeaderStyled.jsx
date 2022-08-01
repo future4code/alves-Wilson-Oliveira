@@ -1,22 +1,23 @@
 import styled from "styled-components"
 
-export const Headerstyled=styled.header`
+export const Headerstyled = styled.header`
     max-height: 400px;
     background-color: #ededed;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
     align-items: center;
-    margin: 5vh 0;
+    margin-bottom: 8vh ;
+    margin-top: 1vh;
     padding: 3px;
 `
 
-export const ImagemLogo=styled.img`
+export const ImagemLogo = styled.img`
     height:100%;
     width: 50%;
 `
 
-export const Login=styled.div`
+export const Login = styled.div`
 display: flex;
 height: 100%;
 width: 100%;
