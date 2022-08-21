@@ -1,124 +1,180 @@
-import express, { Express,Request,Response } from "express";
-import cors from "cors";
+import express, { Express, Request, response, Response } from "express"
+import cors from "cors"
+import { Account } from "./types"
 
 
-const app: Express = express();
-app.use(express.json());
-app.use(cors());
+const app: Express = express()
 
-app.listen(3003, () => {
-       console.log(`Server is running in http://localhost:3003`);
-});
+app.use(express.json())
+app.use(cors())
 
-enum TYPE {
-    ADMIN="ADMIN",
-    NORMAL="NORMAL"
-}
+const accounts: Account = [ {
+   name: "will",
+   CPF: "413.292.058-55",
+   dateOfBirthString: "1992-12-17",
+   balance: 200,
+   statement: [    
+   {
+   value:50,
+   description:"conta a pagar",
+   date:new Date("2023/08/05")}]
+}]
 
-let users = [
-    {
-        id: 1,
-        name: "Alice",
-        email: "alice@email.com",
-        type: TYPE.ADMIN,
-        age: 12
-    },
-    {
-        id: 2,
-        name: "Bob",
-        email: "bob@email.com",
-        type: TYPE.NORMAL,
-        age: 36
-    },
-    {
-        id: 3,
-        name: "Coragem",
-        email: "coragem@email.com",
-        type: TYPE.NORMAL,
-        age: 21
-    },
-    {
-        id: 4,
-        name: "Dory",
-        email: "dory@email.com",
-        type: TYPE.NORMAL,
-        age: 17
-    },
-    {
-        id: 5,
-        name: "Elsa",
-        email: "elsa@email.com",
-        type: TYPE.ADMIN,
-        age: 17
-    },
-    {
-        id: 6,
-        name: "Fred",
-        email: "fred@email.com",
-        type: TYPE.ADMIN,
-        age: 60
-    }
-]
+app.post("/users/create", (req: Request, res: Response) => {
+   try {
+      const { name, CPF, dateOfBirthAsString } = req.body
+
+      const [day, month, year] = dateOfBirthAsString.split("/")
+
+      const dateOfBirth: Date = new Date(`${year}-${month}-${day}`)
+
+      const dateOfBirthString = `${year}-${month}-${day}`
+
+      const ageInMilisseconds: number = Date.now() - dateOfBirth.getTime()
+
+      const ageInYears: number = ageInMilisseconds / 1000 / 60 / 60 / 24 / 365
+
+      if (ageInYears < 18) {
+         res.statusCode = 406
+         throw new Error("Idade deve ser maior que 18 anos")
+      }
+
+      const checkCpf = accounts.filter((item) => item.CPF === CPF)
+      if (checkCpf.length > 0) {
+         res.statusCode = 406
+         throw new Error("CPF já cadastrado")
+      }
+
+      accounts.push({
+         name,
+         CPF,
+         dateOfBirthString,
+         balance: 0,
+         statement: []
+      })
 
 
-app.get("/users",(req,res) => {
-    const auth=req.query.type as string
-    const name=req.query.name as string
-    try{
-
-if(auth||name){
-    if(auth.toUpperCase()===TYPE.ADMIN){
-    const admins=users.filter((item)=>item.type===TYPE.ADMIN)
-    res.send(admins)
-}else if(auth.toUpperCase()===TYPE.NORMAL){
-        const normais=users.filter((item)=>item.type===TYPE.NORMAL)
-    res.send(normais)
-    }else{
-    res.send("tipo invalido")
-}
-const user = users.filter((item)=>item.name.toLowerCase()===name.toLowerCase())
-if(!user){
-            res.send("usuario não encontrado")
-        }else{
-        res.send(user)
-        }
-
-}else{
-    res.send(users)
-}
-
-}catch(error:any){
-    res.send()
-    console.log(name)
-}})
-
-
-
-
-
-app.put("/criar", (req, res) => {  
-    const {id,email,name,type,age}=req.body 
-    users.push({name,id,email,type,age})      
-    res.send(users)
+      res.status(201).send("Conta criada com sucesso!")
+   } catch (error: any) {
+      console.log(error)
+      res.send(error.message)
+   }
 })
 
-// a. Mude o método do endpoint para `PUT`. O que mudou?
-// R: nada, a requisição funcionou do mesmo modo
+app.post("/users/pagamento",(req:Request,res:Response)=>{
+   const {dueDate,value,description,CPF,}=req.body
+   const user = accounts.find((item)=>item.CPF===CPF)
+   
+   try{
+      if (!user) {
+         res.statusCode = 404
+         throw new Error("Nenhuma conta encontrada")
+      }
 
-// b. Você considera o método `PUT` apropriado para esta transação? Por quê?
-// R: Não, pois o metodo put por boa pratica deve apenas editar itens
+      accounts.filter((item)=>item.CPF===CPF)
+      .map((item)=>item.statement.push({value:value,date:dueDate?new Date(dueDate) :new Date(Date.now()),description:description}))
+
+      res.send("conta adicionada")
+
+   }catch(error:any){
+      res.send(error.message)
+   }
+})
+
+app.get("/users/all", (req: Request, res: Response) => {
+   try {
+
+      if (!accounts.length) {
+         res.statusCode = 404
+         throw new Error("Nenhuma conta encontrada")
+      }
+
+      res.status(200).send(accounts)
+   } catch (error: any) {
+      res.send(error.message)
+   }
+})
+
+app.get("/users/saldo", (req: Request, res: Response) => {
+   const CPF = req.query.userCPF as string
+   const user = accounts.find((item) => item.CPF == CPF)
+   try {
+
+      if (!user) {
+         res.statusCode = 404
+         throw new Error("Nenhuma conta encontrada")
+      }
+
+      res.statusCode=202
+      res.send(`saldo : ${(user.balance).toString()}`)
+
+   } catch (error: any) {
+
+      res.send(error.message)
+   }
+})
+
+app.put("/users/deposito",(req:Request,res:Response)=>{
+   const {CPF,name,value} = req.body
+   const user = accounts.find((item)=>(item.CPF===CPF&&item.name===name))
+
+   try{
+      if(!user){
+         res.statusCode=404
+         res.send("Nenhum usuario encontrado")
+      }
+      accounts.filter((item)=>(item.CPF===CPF&&item.name===name)).map((item)=>item.balance=(item.balance+value))
+      accounts.filter((item)=>(item.CPF===CPF&&item.name===name))
+      .map((item)=>item.statement.push({value:value,date:new Date(Date.now()),description:"Deposito em dinheiro"}))
+      
+      res.send("Valor depositado com sucesso!")
 
 
 
+   }catch(error:any){
+      res.send(error.message)
+   }
+})
+
+app.put("/users/atualizar/:cpf",(req:Request,res:Response)=>{
+   const CPF=req.params.cpf
+   const userIndex = accounts.findIndex((item)=>item.CPF===CPF)
+
+   try{ 
+     if(userIndex<0){
+         res.statusCode=404
+         res.send("Nenhum usuario encontrado")
+      }
+
+      let newBalance = accounts[userIndex].balance
+
+      accounts[userIndex].statement.forEach(balance => {
+         if(balance.value < 0 )
+          newBalance += balance.value
+      }
+      )
+
+      accounts[userIndex].balance = newBalance
+      accounts[userIndex].statement.map((item)=>{
+         if (item.value<0){
+            item.value=0
+            item.description="pago"
+         }})
+
+      
 
 
+ res.send(accounts)
 
 
-// Vamos começar fazendo um endpoint que busque todos os usuários de uma lista. A lista está disponível abaixo.
-// *a. Qual método HTTP você deve utilizar para isso?*
-// R: metodo get
+   }catch(error:any){
+      res.send(error.message)
+   }
+})
 
-// *b. Como você indicaria a **entidade** que está sendo manipulada?*
-// R./users
+app.listen(3003, () => {
+   console.log("Servidor rodando na porta 3003")
 
+})
 
+new Date(Date.now())>new Date("2022/08/22")
