@@ -1,0 +1,30 @@
+### Exercício 1
+
+a- uma chave strangeira (FOREIGN KEY) é uma chave que faz relações entre tabelas.
+
+b- ok
+
+c- Error Code: 1452. Cannot add or update a child row: a foreign key constraint fails (`alves-wilson-oliveira`.`Rating`, CONSTRAINT `Rating_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `filmes` (`id`))/
+Código de erro: 1452. Não é possível adicionar ou atualizar uma linha filho: uma restrição de chave estrangeira falha (`alves-wilson-oliveira`.`Rating`, CONSTRAINT `Rating_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `filmes` (`id` ))
+
+d-Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails (`alves-wilson-oliveira`.`Rating`, CONSTRAINT `Rating_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `filmes` (`id`)/Código de erro: 1451. Não é possível excluir ou atualizar uma linha pai: uma restrição de chave estrangeira falha (`alves-wilson-oliveira`.`Rating`, CONSTRAINT `Rating_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `filmes` (`id` ))
+
+
+
+### Exercício 2
+
+a- Essa nova tabela possue duas chaves estrangeiras, isso torna possivel relacionar as duas tabelas nessa nova tabela
+
+b- ok
+
+c- Error Code: 1452. Cannot add or update a child row: a foreign key constraint fails (`alves-wilson-oliveira`.`MovieCast`, CONSTRAINT `MovieCast_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `filmes` (`id`))/Código de erro: 1452. Não é possível adicionar ou atualizar uma linha filha: uma restrição de chave estrangeira falha (`alves-wilson-oliveira`.`MovieCast`, CONSTRAINT `MovieCast_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `filmes` (`id` ))
+
+d-Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails (`alves-wilson-oliveira`.`MovieCast`, CONSTRAINT `MovieCast_ibfk_2` FOREIGN KEY (`actor_id`) REFERENCES `Actor` (`id`))/Código de erro: 1451. Não é possível excluir ou atualizar uma linha pai: uma restrição de chave estrangeira falha (`alves-wilson-oliveira`.`MovieCast`, CONSTRAINT `MovieCast_ibfk_2` FOREIGN KEY (`actor_id`) REFERENCES `Actor` (`id` ))
+
+
+### Exercício 3
+
+a-a query mostra como selecionar duas informações que estão em tabelas diferente e juntalas em apenas uma tabela, o keyword on faz com que o resultado seja apenas os que tiveram corelação.
+
+b-ok
+
