@@ -1,0 +1,14 @@
+POST http://localhost:3003/users/signup
+Content-Type: application/json
+
+{
+
+    "name":"will",
+    "email":"will@will",
+    "cep": "04843430",
+    "nickname":"willlord",
+    "numero":"55",
+    "complemento": "perto da escola"
+
+
+}
