@@ -28,9 +28,10 @@ export default async function createUser(
 
         const duplicate:string = error.sqlMessage
 
-        if(duplicate&&duplicate.indexOf("Duplicate")>= 0){
+        if(duplicate.indexOf("Duplicate")>= 0){
             res.status(400).send("Email ja cadastrado.")
         }
+        
         res
         .status(500)
         .send({
