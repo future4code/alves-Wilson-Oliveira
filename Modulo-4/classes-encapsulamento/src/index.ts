@@ -14,7 +14,7 @@ class UserAccount {
     private cpf: string;
     private name: string;
     private age: number;
-    private balance: number = 0;
+    private balance: number = 0; 
     private transactions: Transaction[] = [];
   
     constructor(
