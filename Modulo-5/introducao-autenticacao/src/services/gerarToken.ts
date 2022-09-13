@@ -12,8 +12,9 @@ export  class gerarToken {
     }
 
     verificadortoken(token:string ){
-        const verifica= jwt.verify(token,process.env.JWT_KEY!)
-        return verifica
+        const verifica= jwt.verify(token,process.env.JWT_KEY!)as any
+        
+        return verifica.id
 
     }
 

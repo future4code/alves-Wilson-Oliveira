@@ -22,4 +22,15 @@ export class UsuarioDados extends BaseDatabase {
             
         return result
     }
+
+
+public getByid = async (id: string):Promise<any> => {
+    const [result] = await this.getConnection()
+    .select('*')
+    .from('usuarios')
+    .where({id})
+        
+    return result
+}
+
 }

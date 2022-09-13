@@ -26,7 +26,7 @@ try {
 
     res.status(200).send({token:token.geradortoken(response.id)})
 
-    console.log(response)
+    
 } catch (error: any) {
     res.status(500).send(error.message||error.sqlmessage)
 }
