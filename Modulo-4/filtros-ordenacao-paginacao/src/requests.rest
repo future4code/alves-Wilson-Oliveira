@@ -1,0 +1,5 @@
+GET http://localhost:3003/recipes
+
+GET http://localhost:3003/users/:type?name=
+
+GET http://localhost:3003/users/:type?name=&orden=asc&colunn=id&page=2
