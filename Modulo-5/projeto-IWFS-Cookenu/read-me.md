@@ -2,9 +2,6 @@
 IWFS - Cookenu
 
 
-# `Link`
-[Clique aqui!](https://labenu-system-11.herokuapp.com/)
-
 
 # `Descrição`
 O Projeto IWFS - Cookenu foi desenvolvido como uma atividade dentro do curso Full-Stack Web Developer da Labenu, o qual consiste na elaboração de uma API que retorna dados conforme as requisições enviadas. Trata-se de uma ferramenta de cadastro de usuários e receitas que poderam ser acessadas por outros usuarios.
