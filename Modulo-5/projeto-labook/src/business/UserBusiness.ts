@@ -1,8 +1,11 @@
+import { ConflictError } from './../errors/ConflictError';
+import { ILoginOutputDTO, ISignupOutputDTO } from './../models/User';
 import { ILoginInputDTO, ISignupInputDTO, User, USER_ROLES } from '../models/User';
 import { UserDatabase } from "../database/UserDatabase"
 import { Authenticator, ITokenPayload } from "../services/Authenticator"
 import { HashManager } from "../services/HashManager"
 import { IdGenerator } from "../services/IdGenerator"
+import { ParamsError } from '../errors/ParamsError';
 
 export class UserBusiness {
     constructor(
@@ -16,7 +19,7 @@ export class UserBusiness {
         const {name,email,password} = input
 
         if (!name || !email || !password) {
-            throw new Error("Um ou mais parâmetros faltando")
+            throw new ParamsError()
         }
 
         if (typeof name !== "string" || name.length < 3) {
@@ -38,7 +41,7 @@ export class UserBusiness {
         const userByEmail = await this.userDatabase.findByEmail(email)
 
         if (userByEmail) {
-            throw new Error("E-mail já cadastrado")
+            throw new ConflictError()
         }
 
         const id = this.idGenerator.generate()
@@ -61,8 +64,8 @@ export class UserBusiness {
 
         const token = this.authenticator.generateToken(payload)
 
-        const response = {
-            message: "Login realizado com sucesso",
+        const response: ISignupOutputDTO = {
+            message: "Usuário criado com sucesso",
             token
         }
 
@@ -74,7 +77,7 @@ export class UserBusiness {
         const password = input.password
 
         if (!email || !password) {
-            throw new Error("Um ou mais parâmetros faltando")
+            throw new ParamsError()
         }
 
         if (typeof email !== "string" || email.length < 3) {
@@ -93,7 +96,7 @@ export class UserBusiness {
         const userDB = await this.userDatabase.findByEmail(email)
 
         if (!userDB) {
-            throw new Error("E-mail não cadastrado")
+            throw new ConflictError()
         }
 
         const user = new User(
@@ -119,11 +122,13 @@ export class UserBusiness {
 
         const token = this.authenticator.generateToken(payload)
 
-        const response = {
+        const response:ILoginOutputDTO = {
             message: "Login realizado com sucesso",
             token
         }
 
         return response
     }
+
+    
 }

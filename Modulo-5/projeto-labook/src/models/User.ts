@@ -17,10 +17,22 @@ export interface ISignupInputDTO {
     password:string
 }
 
+export interface ISignupOutputDTO {
+    message:string,
+    token:string
+}
+
 export interface ILoginInputDTO {
     email:string,
     password:string
 }
+
+export interface ILoginOutputDTO {
+    message:string,
+    token:string
+}
+
+
 
 
 export class User {
