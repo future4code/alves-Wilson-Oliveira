@@ -41,7 +41,7 @@ export default async function login (
 
             const compare = await hashMagener.compare(password,newUser.getPassword())
 
-            console.log(compare)
+            
 
             if(compare){
                 res.status(200).send({
