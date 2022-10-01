@@ -1,10 +1,10 @@
-import { AuthenticatorMock } from './../services/AuthenticatorMock';
-import { IdGeneratorMock } from './../services/IdGeneratorMock';
 import { UserBusiness } from './../../../src/business/UserBusiness';
 import{ISignupInputDTO} from "../../../src/models/User"
 import {  UserDatabaseMock } from '../UserDatabaseMock';
-import { HashManagerMock } from '../services/HashManagerMock';
 import { BaseError } from '../../../src/errors/BaseError';
+import { IdGeneratorMock } from '../IdGeneratorMock';
+import { HashManagerMock } from '../HashManagerMock';
+import { AuthenticatorMock } from '../AuthenticatorMock';
 
 describe("Testando o método signup da UserBusiness", () => {
     const userBusiness = new UserBusiness(

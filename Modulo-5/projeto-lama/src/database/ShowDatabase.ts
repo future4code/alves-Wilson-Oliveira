@@ -15,16 +15,17 @@ export class ShowDatabase extends BaseDatabase {
             .insert(showDB)
     }
 
-    public findShowByDateData = async (startsAt: Date) => {
-        const result:IShowDB[] = await BaseDatabase.connection(ShowDatabase.TABLE_SHOWS)
-            .select("*")
+    public findShowByDateData = async (startsAt: Date):  Promise<IShowDB | undefined> => {
+        const result:IShowDB[]|undefined = await BaseDatabase
+        .connection(ShowDatabase.TABLE_SHOWS)
+            .select()
             .where({
                 starts_at:startsAt
             })
-            return result[0]
+            return result[0]|| undefined
             
     }
-    public findShowByIdData= async (id:string) => {
+    public findShowByIdData= async (id:string):Promise<IShowDB|undefined> => {
         const result:IShowDB[] = await BaseDatabase.connection(ShowDatabase.TABLE_SHOWS)
             .select("*")
             .where({id:id})
@@ -40,17 +41,17 @@ export class ShowDatabase extends BaseDatabase {
             
     }
 
-    public payTicketData= async (id:string,showId:string,userId:string) => {
+    public payTicketData= async (ticket:ITicketDB) => {
         await BaseDatabase
             .connection(ShowDatabase.TABLE_TICKETS)
             .insert({
-                id: id,
-                show_id: showId,
-                user_id: userId
+                id: ticket.id,
+                show_id: ticket.show_id,
+                user_id: ticket.user_id
             })
     }
 
-    public verifyTicketData= async (userId:string, showId:string ) => {
+    public verifyTicketData= async (userId:string, showId:string ):Promise<ITicketDB|undefined> => {
         const result:ITicketDB[] = await BaseDatabase
             .connection(ShowDatabase.TABLE_TICKETS)
             .select("*")
@@ -60,7 +61,7 @@ export class ShowDatabase extends BaseDatabase {
             return result[0]
     }    
 
-    public ticketByIdData = async (showId: string) => {
+    public ticketByIdData = async (showId: string):Promise<number> => {
         const result = await BaseDatabase
             .connection(ShowDatabase.TABLE_TICKETS)
             .select()

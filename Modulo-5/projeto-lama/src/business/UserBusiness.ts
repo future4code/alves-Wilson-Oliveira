@@ -1,3 +1,4 @@
+import { AuthorizationError } from './../errors/AuthorizationError';
 import { UserDatabase } from "../database/UserDatabase"
 import { ConflictError } from "../errors/ConflictError"
 import { NotFoundError } from "../errors/NotFoundError"
@@ -52,7 +53,7 @@ export class UserBusiness {
             name,
             email,
             hashedPassword,
-            USER_ROLES.ADMIN
+            USER_ROLES.NORMAL
         )
 
         await this.userDatabase.createUser(user)
@@ -88,7 +89,7 @@ export class UserBusiness {
             throw new ParamsError("Parâmetro 'email' inválido")
         }
 
-        if (typeof password !== "string" || password.length < 3) {
+        if (typeof password !== "string" || password.length < 6) {
             throw new ParamsError("Parâmetro 'password' inválido")
         }
 
@@ -107,11 +108,12 @@ export class UserBusiness {
             userDB.role
         )
 
-
+        
         const isPasswordCorrect = await this.hashManager.compare(password, user.getPassword())
 
+
         if (!isPasswordCorrect) {
-            throw new Error("Senha incorreta")
+            throw new AuthorizationError("Senha incorreta")
         }
 
         const payload: ITokenPayload = {

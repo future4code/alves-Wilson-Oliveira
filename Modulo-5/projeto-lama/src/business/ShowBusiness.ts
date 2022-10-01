@@ -132,7 +132,7 @@ export class ShowBusiness {
             throw new ParamsError("band precisa ser uma string")
         }
 
-        const showDB:IShowDB = await this.showDatabase.findShowByIdData(showId)
+        const showDB:IShowDB|undefined = await this.showDatabase.findShowByIdData(showId)
 
         if (!showDB) {
             throw new NotFoundError("show não encontrado")
@@ -161,7 +161,13 @@ export class ShowBusiness {
 
         const id = this.idGenerator.generate()
 
-        await this.showDatabase.payTicketData(id,showId,payload.id)
+        const ticket:ITicketDB = {
+            id,
+            show_id:showId,
+            user_id:payload.id
+        }
+
+        await this.showDatabase.payTicketData(ticket)
 
         const response : ICreateTicketutputDTO= {
             message: "Ingresso reservado com sucesso ",
@@ -190,7 +196,7 @@ export class ShowBusiness {
             throw new ParamsError("band precisa ser uma string")
         }
 
-        const showDB:IShowDB = await this.showDatabase.findShowByIdData(showId)
+        const showDB:IShowDB|undefined = await this.showDatabase.findShowByIdData(showId)
 
         if (!showDB) {
             throw new NotFoundError("show não encontrado")
