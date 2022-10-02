@@ -1,7 +1,7 @@
 import { ConflictError } from './../errors/ConflictError';
 import { ParamsError } from './../errors/ParamsError';
 import { AuthorizationError } from './../errors/AuthorizationError';
-import { ICreateShowInputDTO, ICreateShowOutputDTO, IGetALLShowsInputDTO, IGetShowsOutputDTO, Show, IPayTicketInputDTO, ITicketDB, IShowDB, IDeleteTicketInputDTO, ICreateTicketutputDTO, IDeleteTicketOutputDTO } from './../models/Show';
+import { ICreateShowInputDTO, ICreateShowOutputDTO, IGetALLShowsInputDTO, IGetShowsOutputDTO, Show, IPayTicketInputDTO, ITicketDB, IShowDB, IDeleteTicketInputDTO, IDeleteTicketOutputDTO, ICreateTicketOutputDTO } from './../models/Show';
 import { ShowDatabase } from "../database/ShowDatabase"
 import { AuthenticationError } from "../errors/AuthenticationError"
 import { Authenticator } from "../services/Authenticator"
@@ -90,8 +90,6 @@ export class ShowBusiness {
 
         const showsDB = await this.showDatabase.getAllShowsData()
 
-        console.log(showsDB)
-
         const shows: any = showsDB.map(show => {
             return new Show(
                 show.id,
@@ -169,8 +167,8 @@ export class ShowBusiness {
 
         await this.showDatabase.payTicketData(ticket)
 
-        const response : ICreateTicketutputDTO= {
-            message: "Ingresso reservado com sucesso ",
+        const response : ICreateTicketOutputDTO= {
+            message: "Ingresso reservado com sucesso",
             id: id
         }
 

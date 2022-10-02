@@ -42,7 +42,14 @@ export class ShowDatabaseMock extends BaseDatabase {
                     band: "mammonas",
                     starts_at: new Date("2022-10-01"),
                 }
-                return show
+                return show;
+                case "202" : 
+                const show2: IShowDB = {
+                    id: "202",
+                    band: "simone",
+                    starts_at: new Date("2022-10-02"),
+                }
+                return show2
         }
     }
 

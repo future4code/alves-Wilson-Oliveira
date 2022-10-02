@@ -34,7 +34,7 @@ export interface IPayTicketCreateDTO{
     userId:string
 }
 
-export interface ICreateTicketutputDTO{
+export interface ICreateTicketOutputDTO{
     message:string
     id:string,
 }
