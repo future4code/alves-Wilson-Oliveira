@@ -1,12 +1,11 @@
+import { ConflictError } from './../errors/ConflictError';
+import { ILoginOutputDTO, ISignupOutputDTO } from './../models/User';
+import { ILoginInputDTO, ISignupInputDTO, User} from '../models/User';
 import { UserDatabase } from "../database/UserDatabase"
-import { NotFoundError } from "../errors/NotFoundError"
-import { ConflictError} from "../errors/ConflictError"
-import { ParamsError} from "../errors/ParamsError"
-import { ILoginInputDTO, ILoginOutputDTO, ISignupInputDTO, ISignupOutputDTO, User, USER_ROLES } from "../models/User"
 import { Authenticator, ITokenPayload } from "../services/Authenticator"
 import { HashManager } from "../services/HashManager"
 import { IdGenerator } from "../services/IdGenerator"
-import { AuthenticationError } from "../errors/AuthenticationError"
+import { ParamsError } from '../errors/ParamsError';
 
 export class UserBusiness {
     constructor(
@@ -15,38 +14,34 @@ export class UserBusiness {
         private hashManager: HashManager,
         private authenticator: Authenticator
     ) {}
+    
+    public signup = async(input : ISignupInputDTO)=>{
+        const {name,email,password} = input
 
-    public signup = async (input: ISignupInputDTO): Promise<ISignupOutputDTO> => {
-        const { name, email, password } = input
-
-        if (typeof name !== "string") {
-            throw new ParamsError("Parâmetro 'name' inválido: deve ser uma string")
+        if (!name || !email || !password) {
+            throw new ParamsError()
         }
 
-        if (typeof email !== "string") {
-            throw new ParamsError("Parâmetro 'email' inválido: deve ser uma string")
+        if (typeof name !== "string" || name.length < 3) {
+            throw new Error("Parâmetro 'name' inválido")
         }
 
-        if (typeof password !== "string") {
-            throw new ParamsError("Parâmetro 'password' inválido: deve ser uma string")
+        if (typeof email !== "string" || email.length < 3) {
+            throw new Error("Parâmetro 'email' inválido")
         }
 
-        if (name.length < 3) {
-            throw new ParamsError("Parâmetro 'name' inválido: mínimo de 3 caracteres")
+        if (!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+            throw new Error("Parâmetro 'email' inválido")
         }
 
-        if (password.length < 6) {
-            throw new ParamsError("Parâmetro 'password' inválido: mínimo de 6 caracteres")
+        if (typeof password !== "string" || password.length < 6) {
+            throw new Error("Parâmetro 'password' inválido")
         }
 
-        if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
-            throw new ParamsError("Parâmetro 'email' inválido")
-        }
+        const userByEmail = await this.userDatabase.findByEmail(email)
 
-        const isEmailAlreadyExists = await this.userDatabase.findByEmail(email)
-        
-        if (isEmailAlreadyExists) {
-            throw new ConflictError("Email já cadastrado")
+        if (userByEmail) {
+            throw new ConflictError()
         }
 
         const id = this.idGenerator.generate()
@@ -57,49 +52,49 @@ export class UserBusiness {
             name,
             email,
             hashedPassword,
-            USER_ROLES.NORMAL
         )
 
         await this.userDatabase.createUser(user)
 
         const payload: ITokenPayload = {
-            id: user.getId(),
-            role: user.getRole()
+            id: user.getId()
         }
 
         const token = this.authenticator.generateToken(payload)
 
         const response: ISignupOutputDTO = {
-            message: "Cadastro realizado com sucesso",
+            message: "Usuário criado com sucesso",
             token
         }
 
         return response
     }
 
-    public login = async (input: ILoginInputDTO): Promise<ILoginOutputDTO> => {
-        const { email, password } = input
+    public login = async (input: ILoginInputDTO) => {
+        const email = input.email
+        const password = input.password
 
-        if (typeof email !== "string") {
-            throw new ParamsError("Parâmetro 'email' inválido")
+        if (!email || !password) {
+            throw new ParamsError()
         }
 
-        if (typeof password !== "string") {
-            throw new ParamsError("Parâmetro 'password' inválido")
+        if (typeof email !== "string" || email.length < 3) {
+            throw new Error("Parâmetro 'email' inválido")
         }
 
-        if (password.length < 6) {
-            throw new ParamsError("Parâmetro 'password' inválido: mínimo de 6 caracteres")
+        if (!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+            throw new Error("Parâmetro 'email' inválido")
         }
 
-        if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
-            throw new ParamsError("Parâmetro 'email' inválido")
+        if (typeof password !== "string" || password.length < 3) {
+            throw new Error("Parâmetro 'password' inválido")
         }
+
 
         const userDB = await this.userDatabase.findByEmail(email)
-        
+
         if (!userDB) {
-            throw new NotFoundError("Email não cadastrado")
+            throw new ConflictError()
         }
 
         const user = new User(
@@ -107,30 +102,29 @@ export class UserBusiness {
             userDB.name,
             userDB.email,
             userDB.password,
-            userDB.role
         )
 
-        const isPasswordCorrect = await this.hashManager.compare(
-            password,
-            user.getPassword()
-        )
+
+        const isPasswordCorrect = await this.hashManager.compare(password, user.getPassword())
 
         if (!isPasswordCorrect) {
-            throw new AuthenticationError("Password incorreto")
+            throw new Error("Senha incorreta")
         }
 
         const payload: ITokenPayload = {
             id: user.getId(),
-            role: user.getRole()
         }
+
 
         const token = this.authenticator.generateToken(payload)
 
-        const response: ILoginOutputDTO = {
+        const response:ILoginOutputDTO = {
             message: "Login realizado com sucesso",
             token
         }
 
         return response
     }
+
+    
 }

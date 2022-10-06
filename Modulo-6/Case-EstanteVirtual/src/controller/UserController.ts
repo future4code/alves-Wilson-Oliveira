@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
-import { BaseError } from "../errors/BaseError";
 import { ILoginInputDTO, ISignupInputDTO } from "../models/User";
 
 export class UserController {
@@ -16,14 +15,12 @@ export class UserController {
                 password: req.body.password
             }
 
+
             const response = await this.userBusiness.signup(input)
+
             res.status(201).send(response)
-        } catch (error) {
-            console.log(error)
-            if (error instanceof BaseError) {
-                return res.status(error.statusCode).send({ message: error.message })
-            }
-            res.status(500).send({ message: "Erro inesperado ao cadastrar usuário" })
+        } catch (error:any) {
+            res.status(400).send({ message: error.message })
         }
     }
 
@@ -34,14 +31,13 @@ export class UserController {
                 password: req.body.password
             }
 
+
             const response = await this.userBusiness.login(input)
-            res.status(200).send(response)
-        } catch (error) {
-            console.log(error)
-            if (error instanceof BaseError) {
-                return res.status(error.statusCode).send({ message: error.message })
-            }
-            res.status(500).send({ message: "Erro inesperado ao cadastrar usuário" })
+
+            res.status(201).send(response)
+        } catch (error:any) {
+            res.status(400).send({ message: error.message })
         }
     }
+    
 }
