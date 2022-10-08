@@ -46,8 +46,18 @@ export class CompetitionController {
                 token:req.headers.authorization as string
             } 
 
-            
             const response = await this.competitionBusiness.createResult(input)
+            res.status(201).send(response)
+        } catch (error:any) {
+            res.status(400).send({ message: error.message })
+        }
+    }
+
+    public resultByCompetitionController = async (req: Request, res: Response) => {
+        try {
+            const input = {competition:req.params.competition}
+            
+            const response = await this.competitionBusiness.resultsByCompetitionBusiness(input)
 
             res.status(201).send(response)
         } catch (error:any) {

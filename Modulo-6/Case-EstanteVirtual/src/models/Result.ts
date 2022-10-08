@@ -1,5 +1,9 @@
 export interface IResultDB {
-
+    id:string,
+    name: string,
+    competition:string,
+    value:number,
+    unity:string
 }
 
 
@@ -35,5 +39,18 @@ export interface ICreateResultInputDTO {
     competition:string,
     value:number|number[],
     unity:string
+}
+
+export interface ICreateResultOutputDTO {
+    message: string
+}
+
+export interface IFindResultInputDTO{
+    competition: string
+}
+
+export interface IFindResultOutputDTO{
+    status:string,
+    "classificação":IResultDB[]
 }
 

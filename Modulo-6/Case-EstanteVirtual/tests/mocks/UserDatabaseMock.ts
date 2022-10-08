@@ -1,4 +1,4 @@
-import { IUserDB, User, USER_ROLES } from "../../src/models/User"
+import { IUserDB, User} from "../../src/models/User"
 import { BaseDatabase } from "../../src/database/BaseDatabase"
 
 export class UserDatabaseMock extends BaseDatabase {
@@ -10,7 +10,6 @@ export class UserDatabaseMock extends BaseDatabase {
             name: user.getName(),
             email: user.getEmail(),
             password: user.getPassword(),
-            role: user.getRole()
         }
 
         return userDB
@@ -24,7 +23,6 @@ export class UserDatabaseMock extends BaseDatabase {
                     name: "User Mock",
                     email: "usermock@gmail.com",
                     password: "hash-mock",
-                    role: USER_ROLES.NORMAL
                 }
 
                 return normalUser
@@ -35,7 +33,6 @@ export class UserDatabaseMock extends BaseDatabase {
                     name: "Astrodev",
                     email: "astrodev@gmail.com",
                     password: "hash-bananinha",
-                    role: USER_ROLES.ADMIN
                 }
 
                 return adminUser

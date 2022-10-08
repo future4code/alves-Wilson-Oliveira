@@ -12,7 +12,6 @@ const competicaoController = new CompetitionController(
     new CompetitionBusiness(
         new CompetitionDataBase(),
         new IdGenerator(),
-        new HashManager(),
         new Authenticator()
     )
 )
@@ -20,3 +19,4 @@ const competicaoController = new CompetitionController(
 CompetitionRouter.post('/',competicaoController.createCompetitionController)
 CompetitionRouter.get('/all',competicaoController.allCompetitionController)
 CompetitionRouter.post('/result',competicaoController.createResultController)
+CompetitionRouter.get('/:competition',competicaoController.resultByCompetitionController)

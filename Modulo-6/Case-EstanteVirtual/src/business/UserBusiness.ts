@@ -94,7 +94,7 @@ export class UserBusiness {
         const userDB = await this.userDatabase.findByEmail(email)
 
         if (!userDB) {
-            throw new ConflictError()
+            throw new ConflictError("Email ou senha incorretos")
         }
 
         const user = new User(

@@ -9,19 +9,19 @@ export class CompetitionDataBase extends BaseDatabase {
     public toCompetitionDBModel = (competition: Competition): ICompetitionDB => {
         const competicaoDB: ICompetitionDB = {
             competition: competition.getCompetition(),
-            limit_date:competition.getLimitDate()
+            limit_date: competition.getLimitDate()
         }
         return competicaoDB
     }
 
-    public toResultDBModel = (result:Result): IResultDB =>{
-        const resultDB:IResultDB ={
-            id:result.getId(),
-            name:result.getName(),
-            competition:result.getCompetition(),
-            value:result.getValue(),
-            unity:result.geUnity(),
-            
+    public toResultDBModel = (result: Result): IResultDB => {
+        const resultDB: IResultDB = {
+            id: result.getId(),
+            name: result.getName(),
+            competition: result.getCompetition(),
+            value: result.getValue(),
+            unity: result.geUnity(),
+
         }
         return resultDB
     }
@@ -43,21 +43,31 @@ export class CompetitionDataBase extends BaseDatabase {
     }
 
     public allCompeticoesDataBase = async (): Promise<ICompetitionDB[]> => {
-        const competicoesDB :ICompetitionDB[]=await BaseDatabase
-        .connection(CompetitionDataBase.TABLE_COMPETITION)
-        .select()
+        const competicoesDB: ICompetitionDB[] = await BaseDatabase
+            .connection(CompetitionDataBase.TABLE_COMPETITION)
+            .select()
+
         return competicoesDB
 
     }
 
-    public createResult = async (result:Result) =>{
+    public createResult = async (result: Result): Promise<void> => {
 
         const newResult = this.toResultDBModel(result)
-        
+
         await BaseDatabase
-        .connection(CompetitionDataBase.TABLE_RESULT)
-        .insert(newResult)
+            .connection(CompetitionDataBase.TABLE_RESULT)
+            .insert(newResult)
 
     }
-}
 
+    public resultsByCompetitionDataBase = async (competition: string): Promise<IResultDB[]> => {
+        const resultDB: IResultDB[] = await BaseDatabase
+            .connection(CompetitionDataBase.TABLE_RESULT)
+            .select()
+            .where({ competition: competition })
+            .orderBy('value', 'DESC')
+        return resultDB
+    }
+
+}
