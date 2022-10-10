@@ -1,22 +1,23 @@
+import moment from "moment"
 import { ICompetitionDB } from "../../models/Competition"
 import { IUserDB } from "../../models/User"
 
 export const competitionMigrations: ICompetitionDB[] = [
     {
         competition: "Dardo semifinal",
-        limit_date: new Date ("2022-12-01")
+        limit_date: new Date(moment("2022-12-10", "YYYY/MM/DD").format("YYYY/MM/DD"))
     },
     {
         competition: "Dardo final",
-        limit_date: new Date ("2022-12-02")
+        limit_date: new Date(moment("2022-12-22", "YYYY/MM/DD").format("YYYY/MM/DD"))
     },
     {
         competition: "100m classificatoria 1",
-        limit_date: new Date ("2022-12-03")
+        limit_date: new Date(moment("2022-12-01", "YYYY/MM/DD").format("YYYY/MM/DD"))
     }
 ]
 
-export const resultMigrations : any =[
+export const resultMigrations  =[
     {
         id:"201",
         name:"João Carlos",

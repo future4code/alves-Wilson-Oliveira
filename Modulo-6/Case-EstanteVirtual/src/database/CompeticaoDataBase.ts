@@ -26,7 +26,7 @@ export class CompetitionDataBase extends BaseDatabase {
         return resultDB
     }
 
-    public findByCompeticao = async (competition: string): Promise<ICompetitionDB | undefined> => {
+    public findByCompeticaoDataBase = async (competition: string): Promise<ICompetitionDB | undefined> => {
         const result: ICompetitionDB[] = await BaseDatabase
             .connection(CompetitionDataBase.TABLE_COMPETITION)
             .select()
@@ -51,7 +51,7 @@ export class CompetitionDataBase extends BaseDatabase {
 
     }
 
-    public createResult = async (result: Result): Promise<void> => {
+    public createResultDataBase = async (result: Result): Promise<void> => {
 
         const newResult = this.toResultDBModel(result)
 
@@ -68,6 +68,23 @@ export class CompetitionDataBase extends BaseDatabase {
             .where({ competition: competition })
             .orderBy('value', 'DESC')
         return resultDB
+    }
+
+    public resultsByIdDataBase = async (id: string): Promise<IResultDB|undefined> => {
+        const resultDB: IResultDB[] = await BaseDatabase
+            .connection(CompetitionDataBase.TABLE_RESULT)
+            .select()
+            .where( {id} )
+        return resultDB[0]
+    }
+
+    public deleteResultDataBase = async (id:string) : Promise<void> => {
+
+        await BaseDatabase
+            .connection(CompetitionDataBase.TABLE_RESULT)
+            .delete()
+            .where({id})
+
     }
 
 }

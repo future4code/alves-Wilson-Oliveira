@@ -1,4 +1,4 @@
-import { Result, IFindResultInputDTO, IFindResultOutputDTO, ICreateResultOutputDTO } from './../models/Result';
+import { Result, IFindResultInputDTO, IFindResultOutputDTO, ICreateResultOutputDTO, IDeleteResultInputDtO, IDeleteResultOutputDTO } from './../models/Result';
 import { CompetitionDataBase } from './../database/CompeticaoDataBase';
 import { NotFoundError } from "../errors/NotFoundError"
 import { ConflictError } from "../errors/ConflictError"
@@ -32,12 +32,12 @@ export class CompetitionBusiness {
         }
 
         if (competition.length < 3) {
-            throw new Error("Paramentro 'competicao' inferior a 3 caracteres")
+            throw new ParamsError("Paramentro 'competicao' inferior a 3 caracteres")
         }
 
 
         if (!limitDate.match(/^[0-9-/]*$/)) {
-            throw new Error("Paramentro 'data' com formato inregular")
+            throw new ParamsError("Paramentro 'data' com formato inregular")
         }
 
         const dateMoment = moment(limitDate, "DD/MM/YYYY").format("YYYY/MM/DD")
@@ -65,18 +65,17 @@ export class CompetitionBusiness {
         const result: IAllCompetitionOutput[] = competitions.map((competicao) => {
             const newCompetition = new Competition(competicao.competition, competicao.limit_date)
 
-            const fomratCompetition = {
+            const formatCompetition = {
                 competicao: newCompetition.getCompetition(),
-                enceramento: moment(newCompetition.getLimitDate(), "YYYY-MM-DD").format("DD-MM-YYYY")
-
+                enceramento: moment(newCompetition.getLimitDate(), "YYYY-MM-DD").format("DD/MM/YYYY")
             }
-            return fomratCompetition
+            return formatCompetition
         })
 
         return result
     }
 
-    public createResult = async (input: ICreateResultInputDTO) => {
+    public createResultBusiness = async (input: ICreateResultInputDTO) => {
 
         const { token, name, competition, unity } = input
         let { value } = input
@@ -103,7 +102,7 @@ export class CompetitionBusiness {
             throw new ParamsError("Parametro unity deve ser do tipo 'string'")
         }
 
-        const competitionFind = await this.competicaoDatabase.findByCompeticao(competition)
+        const competitionFind = await this.competicaoDatabase.findByCompeticaoDataBase(competition)
 
 
 
@@ -120,20 +119,28 @@ export class CompetitionBusiness {
             throw new ConflictError("Competição encerrada")
         }
 
+        if (competitionClass.getCompetition().indexOf("Dardo") < 0 && typeof (value) !== "number") {
+            throw new ParamsError("Parametro 'value' deve serdo tipo number")
+        }
+
         if (competitionClass.getCompetition().indexOf("Dardo") >= 0) {
+
             if (typeof (value) !== "object") {
-                throw new ConflictError(" A competição 'Dardo' precisa ter 3 valores numericos em um array")
+                throw new ParamsError(" A competição 'Dardo' precisa ter 3 valores numericos em um array")
             }
+
             const values = value as number[]
+
             const maxValue = values.reduce(function (prev, current) {
                 return prev > current ? prev : current;
             });
+
             value = maxValue
         }
 
         const id = this.idGenerator.generate()
 
-        const newResult:Result = new Result(
+        const newResult: Result = new Result(
             id,
             name,
             competition,
@@ -141,9 +148,9 @@ export class CompetitionBusiness {
             unity
         )
 
-        await this.competicaoDatabase.createResult(newResult)
+        await this.competicaoDatabase.createResultDataBase(newResult)
 
-        const response:ICreateResultOutputDTO = {
+        const response: ICreateResultOutputDTO = {
             message: "Resultado cadastrado com sucesso"
         }
 
@@ -155,10 +162,10 @@ export class CompetitionBusiness {
 
         const { competition } = input
 
-        const competitionFind = await this.competicaoDatabase.findByCompeticao(competition)
+        const competitionFind = await this.competicaoDatabase.findByCompeticaoDataBase(competition)
 
         if (!competitionFind) {
-            throw new NotFoundError("competição não cadastrada")
+            throw new NotFoundError("Competição não cadastrada")
         }
 
         const newCompetition = new Competition(competitionFind.competition, competitionFind.limit_date)
@@ -172,8 +179,8 @@ export class CompetitionBusiness {
         }
 
         const resultByCompetition = await this.competicaoDatabase.resultsByCompetitionDataBase(competition)
-        resultByCompetition.map((competition) => {
-            new Result(
+        const newResult = resultByCompetition.map((competition) => {
+            return new Result(
                 competition.id,
                 competition.name,
                 competition.competition,
@@ -182,13 +189,50 @@ export class CompetitionBusiness {
             )
         })
 
-        const result:IFindResultOutputDTO= {
-            status:status(),
-            "classificação":resultByCompetition
+        const result: IFindResultOutputDTO = {
+            status: status(),
+            "classificação": newResult
         }
 
 
         return result
+    }
+
+    public deleteResultBusiness = async (input: IDeleteResultInputDtO) => {
+
+        const { resultId, token } = input
+
+        if (!resultId) {
+            throw new ParamsError()
+        }
+
+        const payload = this.authenticator.getTokenPayload(token)
+
+        if (!payload) {
+            throw new AuthenticationError()
+        }
+
+        if (typeof resultId !== "string") {
+            throw new ParamsError("resultId precisa ser uma string")
+        }
+
+        const findResult = await this.competicaoDatabase.resultsByIdDataBase(resultId)
+
+
+
+        if (!findResult) {
+            throw new ConflictError("Nenhum resultado encontrado ")
+        }
+
+        await this.competicaoDatabase.deleteResultDataBase(resultId)
+
+        const response: IDeleteResultOutputDTO = {
+            message: "Resultado cancelado"
+        }
+
+        return response
+
+
     }
 
 }

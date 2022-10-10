@@ -1,3 +1,4 @@
+import { AuthenticationError } from './../errors/AuthenticationError';
 import { ConflictError } from './../errors/ConflictError';
 import { ILoginOutputDTO, ISignupOutputDTO } from './../models/User';
 import { ILoginInputDTO, ISignupInputDTO, User} from '../models/User';
@@ -23,25 +24,25 @@ export class UserBusiness {
         }
 
         if (typeof name !== "string" || name.length < 3) {
-            throw new Error("Parâmetro 'name' inválido")
+            throw new ParamsError("Parâmetro 'name' inválido")
         }
 
         if (typeof email !== "string" || email.length < 3) {
-            throw new Error("Parâmetro 'email' inválido")
+            throw new ParamsError("Parâmetro 'email' inválido")
         }
 
         if (!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-            throw new Error("Parâmetro 'email' inválido")
+            throw new ParamsError("Parâmetro 'email' inválido")
         }
 
         if (typeof password !== "string" || password.length < 6) {
-            throw new Error("Parâmetro 'password' inválido")
+            throw new ParamsError("Parâmetro 'password' inválido: mínimo de 6 caracteres")
         }
 
         const userByEmail = await this.userDatabase.findByEmail(email)
 
         if (userByEmail) {
-            throw new ConflictError()
+            throw new ConflictError('Email já cadastrado')
         }
 
         const id = this.idGenerator.generate()
@@ -63,7 +64,7 @@ export class UserBusiness {
         const token = this.authenticator.generateToken(payload)
 
         const response: ISignupOutputDTO = {
-            message: "Usuário criado com sucesso",
+            message: "Cadastro realizado com sucesso",
             token
         }
 
@@ -79,15 +80,15 @@ export class UserBusiness {
         }
 
         if (typeof email !== "string" || email.length < 3) {
-            throw new Error("Parâmetro 'email' inválido")
+            throw new ParamsError("Parâmetro 'email' inválido")
         }
 
         if (!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-            throw new Error("Parâmetro 'email' inválido")
+            throw new ParamsError("Parâmetro 'email' inválido")
         }
 
         if (typeof password !== "string" || password.length < 3) {
-            throw new Error("Parâmetro 'password' inválido")
+            throw new ParamsError("Parâmetro 'password' inválido")
         }
 
 
@@ -104,11 +105,10 @@ export class UserBusiness {
             userDB.password,
         )
 
-
         const isPasswordCorrect = await this.hashManager.compare(password, user.getPassword())
 
         if (!isPasswordCorrect) {
-            throw new Error("Senha incorreta")
+            throw new AuthenticationError("Senha incorreta")
         }
 
         const payload: ITokenPayload = {

@@ -13,14 +13,14 @@ export class AuthenticatorMock {
 
     public getTokenPayload = (token: string): ITokenPayload | null => {
         switch (token) {
-            case "token-mock-admin":
+            case "token-mock":
                 const adminPayload: ITokenPayload = {
                     id: "id-mock",
                 }
 
                 return adminPayload
 
-            case "token-mock-normal":
+            case "token-mock":
                 const normalPayload: ITokenPayload = {
                     id: "id-mock",
                 }

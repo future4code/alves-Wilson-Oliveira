@@ -1,7 +1,7 @@
 import { CompetitionBusiness } from './../business/CompeticaoBusiness';
 import { Request, Response } from "express";
 import { ICreateCompetitionInputDTO } from "../models/Competition";
-import { ICreateResultInputDTO } from '../models/Result';
+import { ICreateResultInputDTO, IDeleteResultInputDtO } from '../models/Result';
 
 
 export class CompetitionController {
@@ -46,7 +46,7 @@ export class CompetitionController {
                 token:req.headers.authorization as string
             } 
 
-            const response = await this.competitionBusiness.createResult(input)
+            const response = await this.competitionBusiness.createResultBusiness(input)
             res.status(201).send(response)
         } catch (error:any) {
             res.status(400).send({ message: error.message })
@@ -58,6 +58,21 @@ export class CompetitionController {
             const input = {competition:req.params.competition}
             
             const response = await this.competitionBusiness.resultsByCompetitionBusiness(input)
+
+            res.status(201).send(response)
+        } catch (error:any) {
+            res.status(400).send({ message: error.message })
+        }
+    }
+
+    public deleteResultController = async (req: Request, res: Response) => {
+        try {
+            const input: IDeleteResultInputDtO= {
+                token:req.headers.authorization as string,
+                resultId:req.body.resultId
+            }
+
+            const response = await this.competitionBusiness.deleteResultBusiness(input)
 
             res.status(201).send(response)
         } catch (error:any) {

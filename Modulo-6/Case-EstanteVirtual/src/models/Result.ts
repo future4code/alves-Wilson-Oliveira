@@ -51,6 +51,15 @@ export interface IFindResultInputDTO{
 
 export interface IFindResultOutputDTO{
     status:string,
-    "classificação":IResultDB[]
+    "classificação":Result[]
+}
+
+export interface IDeleteResultInputDtO {
+    token:string
+    resultId:string
+}
+
+export interface IDeleteResultOutputDTO {
+    message:string
 }
 

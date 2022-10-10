@@ -19,4 +19,5 @@ const competicaoController = new CompetitionController(
 CompetitionRouter.post('/',competicaoController.createCompetitionController)
 CompetitionRouter.get('/all',competicaoController.allCompetitionController)
 CompetitionRouter.post('/result',competicaoController.createResultController)
+CompetitionRouter.delete('/result',competicaoController.deleteResultController)
 CompetitionRouter.get('/:competition',competicaoController.resultByCompetitionController)

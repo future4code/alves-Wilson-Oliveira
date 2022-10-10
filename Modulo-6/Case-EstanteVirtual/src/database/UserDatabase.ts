@@ -4,7 +4,7 @@ import { BaseDatabase } from "./BaseDatabase"
 export class UserDatabase extends BaseDatabase {
     public static TABLE_USERS = "Estante_Virtual_Users"
 
-    public findByEmail = async (email: string):Promise<IUserDB> => {
+    public findByEmail = async (email: string):Promise<IUserDB|undefined> => {
         const usersDB: IUserDB[] = await BaseDatabase
             .connection(UserDatabase.TABLE_USERS)
             .select()
