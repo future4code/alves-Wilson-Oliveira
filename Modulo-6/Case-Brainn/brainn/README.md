@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+# `Projeto`
+Projeto Brainn
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# `Descrição`
+O Projeto Projeto Brainn foi desenvolvido como uma atividade dentro do curso Full-Stack Web Developer da Labenu, o qual consiste na elaboração de um fornt-end que exibie informações ficticias sobre sorteios de loterias de forma prática e divertida.
 
-In the project directory, you can run:
 
-### `npm start`
+O projeto pode ser acessado clicando aqui [aqui](detailed-fold.surge.sh).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+O Layout pode ser acessado clicando aqui [aqui](https://www.figma.com/file/H2qrYBCFMf4didYmxRwTxP/Brainn-Frontend-Challenge).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+A documentação da API pode ser acessada clicando aqui [aqui](https://brainn-api-loterias.herokuapp.com)
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# `Modo de usar`
 
-### `npm run build`
+Selecione a loteria desejada e o resultado sera exibido na tela.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# `Requisitos & Funcionalidades`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- A aplicação suportar 6 sorteios: Mega-sena, Quina, Lotofácil, Lotomania, Timemania e Dia de sorte.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Todos esses sorteios estarão em um combo-box/select.
 
-### `npm run eject`
+- Ao mudar esse combo-box, muda o tema do sorteio, número do sorteio, data do sorteio e números sorteados.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- A aplicação é responsiva, pelo menos para celulares, conforme layout.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Rotas criadas com React Router DOM 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# `Instalando e rodando o projeto via clone`
+Fazer o clone do projeto:
+- git clone link-do-repositório
 
-## Learn More
+Instalar as dependências:
+- npm install
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Rodar o projeto:
+- npm run start
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# `Principais Tecnologias:`
 
-### Code Splitting
+<img src='https://cdn-icons-png.flaticon.com/512/5968/5968292.png' height='40'> <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png' height='40'> <img src='https://cdn-icons-png.flaticon.com/512/1051/1051277.png' height='40'> 
+<img src='https://cdn-icons-png.flaticon.com/512/732/732190.png' height='40'> <img src='https://avatars.githubusercontent.com/u/20658825?s=200&v=4' height='40'> <img src='https://res.cloudinary.com/practicaldev/image/fetch/s--bvQtwOo5--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://reacttraining.com/images/blog/reach-react-router-future.png' height='40' width='40'> <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Axios_%28computer_library%29_logo.svg/1280px-Axios_%28computer_library%29_logo.svg.png' height='40' width='80'>
+</div>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# `Autor`
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## [<img src='https://ca.slack-edge.com/TLAVDH7C2-U03D9VB02NB-b4b2af2cb962-48'>](https://github.com/wilsonsantos1992) Wilson Santos de Oliveira
+<a href="https://www.linkedin.com/in/wilson-santos-de-oliveira-5b1919116/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> <a href="https://github.com/wilsonsantos1992"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
