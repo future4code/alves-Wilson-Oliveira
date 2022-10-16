@@ -6,13 +6,15 @@ import LotoFacil from '../Screen/LotoFacil/LotoFacil'
 import LotoMania from '../Screen/LotoMania/LotoMania'
 import TimeMania from '../Screen/TimeMania/Timemania'
 import DiaDeSorte from '../Screen/DiaDeSorte/DiaDeSorte'
+import Home  from '../Screen/Home/Home'
 
 
 const Router = () =>{
     return(
         <BrowserRouter>
         <Routes>
-            <Route path="/megasena" element = {<MegaSena/>}/>
+            <Route path="/" element = {<Home/>}/>
+            <Route path="/mega-sena" element = {<MegaSena/>}/>
             <Route path="/quina" element = {<Quina/>}/>
             <Route path="/lotofacil" element = {<LotoFacil/>}/>
             <Route path="/lotomania" element = {<LotoMania/>}/>

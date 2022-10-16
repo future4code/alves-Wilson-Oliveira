@@ -1,5 +1,9 @@
-export const goToMega = (navigate) => {
-    navigate('/mega')
+export const goToHome = (navigate) => {
+    navigate('/')
+}
+
+export const goToMegaSena = (navigate,) => {
+    navigate(`/mega-sena`)
 }
 
 export const goToQuina = (navigate) => {
