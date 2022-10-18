@@ -1,30 +1,131 @@
+import { ICreatePizzaOutputDTO, ICreatePizzaInputDTO, ICreateingredientInputDTO, ICreateingredientOutputDTO, IRecordPizzaIngredientInputDTO, IRecordPizzaIngredientOutputDTO } from './../models/Pizzas';
 import { ConflictError } from '../errors/ConflictError';
 import { ParamsError } from '../errors/ParamsError';
-import { AuthorizationError } from '../errors/AuthorizationError';
 import { PizzasDatabase } from "../database/PizzaDataBase"
-import { AuthenticationError } from "../errors/AuthenticationError"
 import { Authenticator } from "../services/Authenticator"
 import { IdGenerator } from "../services/IdGenerator"
-import { USER_ROLES } from '../models/User';
-import moment from 'moment';
 import { NotFoundError } from '../errors/NotFoundError';
 
 export class PizzasBusiness {
     constructor(
-        private showDatabase: PizzasDatabase,
+        private pizzasDatabase: PizzasDatabase,
         private idGenerator: IdGenerator,
         private authenticator: Authenticator
     ) { }
 
-    public createShowBusiness = async (input:any) => {
+    public createPizzaBusiness = async (input:ICreatePizzaInputDTO) => {
+        const {name, price} = input
+
+
+        if(!name || !price){
+            throw new ParamsError("Parametros invalidos")
+        }
+
+        if (typeof (name) !== "string"){
+            throw new ParamsError("Parametro 'name' deve ser uma string")
+        }
+
+        if(typeof (price)!== "number" || price < 0 ){
+            throw new ParamsError("Parametro 'price' invalido")
+        }
+
+
+        const findPizzasByName = await this.pizzasDatabase.findPizzasByName(name)
+
+        if(findPizzasByName){
+            throw new ConflictError("Pizza ja registrada")
+        }
+
+
         
-        const response = {
-            message: "Show cadastrado com sucesso",
-            
+        await this.pizzasDatabase.createPizzasData(input)
+        
+        const response:ICreatePizzaOutputDTO = {
+            message: "Pizza cadastrado com sucesso",
+        }
+
+
+        return response
+    }
+
+    public createIngredientBusiness = async (input:ICreateingredientInputDTO) => {
+        const {name} = input
+
+        if(!name ){
+            throw new ParamsError("Parametro invalido")
+        }
+
+        if (typeof (name) !== "string"){
+            throw new ParamsError("Parametro 'name' deve ser uma string")
+        }
+
+
+        const findPizzasByName = await this.pizzasDatabase.findIngredientByName(name)
+
+        if(findPizzasByName){
+            throw new ConflictError("Ingrediente já registrado")
+        }
+
+        await this.pizzasDatabase.createIngredientsData(input)
+        
+        const response:ICreateingredientOutputDTO = {
+            message: "Ingrediente cadastrado com sucesso",
         }
 
         return response
     }
+
+    public recordPizzaIngredientBusiness = async (input:IRecordPizzaIngredientInputDTO) => {
+        const {name, ingredients}= input
+
+
+    if(ingredients.length <= 0){
+        throw new ParamsError("Parametro 'ingredients' invalido")
+    }
+
+    if(typeof(ingredients)!== "object"){
+        throw new ParamsError("Parametro 'ingredients' deve ser um array de strings")
+    }
+
+        if(!name ){
+            throw new ParamsError("Parametro invalido")
+        }
+
+        if (typeof (name) !== "string"){
+            throw new ParamsError("Parametro 'name' deve ser uma string")
+        }
+
+        const findIngredientByName = await this.pizzasDatabase.findPizzasByName(name)
+
+        if(!findIngredientByName){
+            throw new ConflictError("Pizza não registrada")
+        }
+    
+
+for (let ingredient of ingredients){
+     const findIngredient=await this.pizzasDatabase.findIngredientByName(ingredient)
+     if(!findIngredient){
+        throw new NotFoundError("ingredientes não registrados")
+     }
+}
+
+    
+    ingredients.map(async(item)=>{
+        const pizza_ingredient={
+            name:name,
+            ingredient:item
+        }
+        await this.pizzasDatabase.recordPizzaIngredients(pizza_ingredient)
+    })
+
+
+    const response:IRecordPizzaIngredientOutputDTO = {
+        message: `Ingredientes da pizza ${name} registrados com sucesso` 
+    }
+
+    return response
+
+}
 
     // public allShowsBusiness = async (input: IGetALLShowsInputDTO) => {
 

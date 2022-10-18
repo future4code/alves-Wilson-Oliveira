@@ -15,6 +15,8 @@ const pizzasController = new PizzasController(
     )
 )
 
-pizzasRouter.post("/create", pizzasController.CreateShowController)
+pizzasRouter.post("/create", pizzasController.createPizzaController)
+pizzasRouter.post("/ingredient", pizzasController.createIngredientController)
+pizzasRouter.post("/recordpizza", pizzasController.recordPizzaIngredientController)
 
 

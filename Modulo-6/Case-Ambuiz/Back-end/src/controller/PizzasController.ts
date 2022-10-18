@@ -1,3 +1,4 @@
+import { ICreatePizzaInputDTO, IRecordPizzaIngredientInputDTO } from './../models/Pizzas';
 
 import { Request, Response } from "express";
 import { PizzasBusiness } from "../business/PizzasBusiness";
@@ -7,16 +8,43 @@ export class PizzasController {
         private pizzasBusiness: PizzasBusiness
     ) { }
 
-    public CreateShowController = async (req: Request, res: Response) => {
+    public createPizzaController = async (req: Request, res: Response) => {
+        try {
+            const input: ICreatePizzaInputDTO = {
+                name:req.body.name,
+                price:req.body.price,
+            }
+            
+
+            const response = await this.pizzasBusiness.createPizzaBusiness(input)
+
+            res.status(201).send(response)
+        } catch (error: any) {
+            res.status(400).send({ message: error.message })
+        }
+    }
+
+    public createIngredientController = async (req: Request, res: Response) => {
         try {
             const input = {
-                band: req.body.band,
-                startsAt: req.body.startsAt,
-                token: req.headers.authorization as string
+                name:req.body.name
             }
 
+            const response = await this.pizzasBusiness.createIngredientBusiness(input)
 
-            const response = await this.pizzasBusiness.createShowBusiness(input)
+            res.status(201).send(response)
+        } catch (error: any) {
+            res.status(400).send({ message: error.message })
+        }
+    }
+
+    public recordPizzaIngredientController = async (req: Request, res: Response) => {
+        try {
+            const input: IRecordPizzaIngredientInputDTO = {
+                name:req.body.name,
+                ingredients:req.body.ingredients
+            }
+            const response = await this.pizzasBusiness.recordPizzaIngredientBusiness(input)
 
             res.status(201).send(response)
         } catch (error: any) {

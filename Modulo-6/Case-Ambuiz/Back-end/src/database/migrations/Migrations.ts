@@ -55,11 +55,11 @@ class Migrations extends BaseDatabase {
             .insert(pizzas)
 
         await BaseDatabase
-            .connection('Amb_Ingredients')
+            .connection(PizzasDatabase.TABLE_INGREDIENTS)
             .insert(ingredients)
 
         await BaseDatabase
-            .connection('Amb_Pizzas_Ingredients')
+            .connection(PizzasDatabase.TABLE_PIZZAS_INGREDIENTS)
             .insert(pizza_ingredients)
     }
 }
