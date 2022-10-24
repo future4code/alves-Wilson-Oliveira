@@ -1,87 +1,63 @@
 
-
 export interface IPizzaDB {
-name:string,
-price:number
+    name: string,
+    price: number
 }
 
-export interface IIngredientDB {
-name:string
+export interface IIngredientsDB {
+    name: string
 }
 
-export interface ICreatePizzaInputDTO{
-    name:string
-    price:number
+export interface IPizzasIngredientsDB {
+    pizza_name: string,
+    ingredient_name: string
 }
-
-export interface ICreatePizzaOutputDTO{
-message:string
-}
-
-export interface IRecordPizzaIngredientInputDTO{
-    name:string
-    ingredients:  string[]
-}
-
-export interface IRecordPizzaIngredientOutputDTO{
-    message: string
-}
-
-export interface IGetALLPizzasInputDTO{
-
-}
-export interface IGetPizzasOutputDTO{
-
-}
-
-
-export interface ICreateingredientOutputDTO{
-    message:string
-}
-
-export interface ICreateingredientInputDTO{
-    name:string
-}
-
-export interface IPayingredientInputDTO{
-
-}
-
-export interface IDeleteingredientInputDTO{
-
-}
-export interface IDeleteingredientOutputDTO{
-
-}
-
-
 
 export class Pizza {
     constructor(
-        private name :string,
-        private price:string,
-        private ingredients: string[]
-
+        private name: string,
+        private price: number,
+        private ingredients: string[] = []
     ) {}
-
-    public getName= () => {
+    
+    public getName = () => {
         return this.name
     }
-
+    
     public getPrice = () => {
         return this.price
     }
 
-
-
-    public getingredients = () => {
+    public getIngredients = () => {
         return this.ingredients
     }
 
-    public setId = (newId: string) => {
-        this
+    public setName = (newName: string) => {
+        this.name = newName
     }
 
-
+    public setPrice = (newPrice: number) => {
+        this.price = newPrice
     }
 
+    public setIngredients = (newIngredients: string[]) => {
+        this.ingredients = newIngredients
+    }
+
+    public addIngredient = (newIngredient: string) => {
+        this.ingredients.push(newIngredient)
+    }
+
+    public removeIngredient = (ingredientToRemove: string) => {
+        return this.ingredients.filter(ingredient => ingredient !== ingredientToRemove)
+    }
+}
+
+export interface IGetPizzasOutputDTO {
+    message: string,
+    pizzas: {
+        name: string,
+        price: number,
+        ingredients: string[]
+    }[]
+}

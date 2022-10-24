@@ -1,6 +1,7 @@
 import { BaseDatabase } from "../BaseDatabase"
+import { OrderDatabase } from "../OrderDataBase"
 import { PizzasDatabase } from "../PizzaDataBase"
-import { ingredients, pizzas, pizza_ingredients } from "./data"
+import { ingredientsSeed, pizzas, pizza_ingredients } from "./data"
 
 
 class Migrations extends BaseDatabase {
@@ -29,23 +30,40 @@ class Migrations extends BaseDatabase {
 
     createTables = async () => {
         await BaseDatabase.connection.raw(`
-        DROP TABLE IF EXISTS Amb_Pizzas_Ingredients;
+        DROP TABLE IF EXISTS ${OrderDatabase.TABLE_ORDER_ITEMS};
+        DROP TABLE IF EXISTS ${OrderDatabase.TABLE_ORDERS};
+        DROP TABLE IF EXISTS ${PizzasDatabase.TABLE_PIZZAS_INGREDIENTS};
+        DROP TABLE IF EXISTS ${PizzasDatabase.TABLE_INGREDIENTS};
         DROP TABLE IF EXISTS ${PizzasDatabase.TABLE_PIZZAS};
-        DROP TABLE IF EXISTS Amb_Ingredients;
-        
+
         CREATE TABLE IF NOT EXISTS ${PizzasDatabase.TABLE_PIZZAS} (
-            name VARCHAR (255)  PRIMARY KEY,
-            price  decimal (19,4) NOT NULL
-            );
-            CREATE TABLE IF NOT EXISTS Amb_Ingredients (
-                name VARCHAR (255)  PRIMARY KEY
-                );
-                CREATE TABLE IF NOT EXISTS Amb_Pizzas_Ingredients (
-                    pizza_name VARCHAR (255),
-                    ingredient_name VARCHAR(255),
-                    FOREIGN KEY (pizza_name) REFERENCES Amb_Pizzas(name),
-                    FOREIGN KEY (ingredient_name) REFERENCES Amb_Ingredients(name)
-                    )
+            name VARCHAR(255) PRIMARY KEY,
+            price DECIMAL(3,2) NOT NULL
+        );
+        
+        CREATE TABLE IF NOT EXISTS ${PizzasDatabase.TABLE_INGREDIENTS} (
+            name VARCHAR(255) PRIMARY KEY
+        );
+        
+        CREATE TABLE IF NOT EXISTS ${PizzasDatabase.TABLE_PIZZAS_INGREDIENTS} (
+            pizza_name VARCHAR(255) NOT NULL,
+            ingredient_name VARCHAR(255) NOT NULL,
+            FOREIGN KEY (pizza_name) REFERENCES Amb_Pizzas (name),
+            FOREIGN KEY (ingredient_name) REFERENCES Amb_Ingredients (name)
+        );
+        
+        CREATE TABLE IF NOT EXISTS ${OrderDatabase.TABLE_ORDERS} (
+            id VARCHAR(255) PRIMARY KEY
+        );
+        
+        CREATE TABLE IF NOT EXISTS ${OrderDatabase.TABLE_ORDER_ITEMS} (
+            id VARCHAR(255) PRIMARY KEY,
+            pizza_name VARCHAR(255) NOT NULL,
+            quantity TINYINT,
+            order_id VARCHAR(255) NOT NULL,
+            FOREIGN KEY (pizza_name) REFERENCES Amb_Pizzas (name),
+            FOREIGN KEY (order_id) REFERENCES Amb_Orders (id)
+        );
         `)
     }
 
@@ -56,7 +74,7 @@ class Migrations extends BaseDatabase {
 
         await BaseDatabase
             .connection(PizzasDatabase.TABLE_INGREDIENTS)
-            .insert(ingredients)
+            .insert(ingredientsSeed)
 
         await BaseDatabase
             .connection(PizzasDatabase.TABLE_PIZZAS_INGREDIENTS)

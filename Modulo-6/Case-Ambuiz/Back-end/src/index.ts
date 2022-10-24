@@ -1,3 +1,4 @@
+import { orderRouter } from './router/orderRouter';
 import express from 'express'
 import cors from 'cors'
 import dotenv from "dotenv"
@@ -15,3 +16,4 @@ app.listen(process.env.PORT || 3003, () => {
 })
 
 app.use("/pizzas", pizzasRouter)
+app.use("/order", orderRouter)
